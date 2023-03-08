@@ -35,14 +35,7 @@ Complete the following analysis in `R` and generate an `RMarkdown` report to sho
 
 2.  Filter the data to include only rows where `Year` is `1962` and then make a scatter plot comparing `'CO2 emissions (metric tons per capita)'` and `gdpPercap` for the filtered data.
 
-3.  On the filtered data, calculate the correlation of `'CO2 emissions (metric tons per capita)'` and `gdpPercap`. What is the correla
-
-        gapminder_plot = gapminder_filtered |>
-          ggplot(aes(x = gdpPercap, y = `CO2 emissions (metric tons per capita)`)) +
-          geom_point()
-        gapminder_plot
-
-    tion and associated p value?
+3.  On the filtered data, calculate the correlation of `'CO2 emissions (metric tons per capita)'` and `gdpPercap`. What is the correlation and associated p value?
 
 4.  On the unfiltered data, answer "In what year is the correlation between `'CO2 emissions (metric tons per capita)'` and `gdpPercap` the strongest?" Filter the dataset to that year for the next step...
 
