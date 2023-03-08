@@ -2,12 +2,13 @@
 
 Pre-requisite: [`R Programming/`](https://github.com/Bioinformatics-Research-Network/training-requirements/tree/main/R%20Programming)
 
-`R` is an excellent language for Data Science. Some might even argue that Data Science is what `R` is for! 
+`R` is an excellent language for Data Science. Some might even argue that Data Science is what `R` is for!
 
 In this miniproject, your task is to analyze the `gapminder_clean.csv` dataset using `R` and the `tidyverse`. Wherever possible, your code should use `tidyverse` functions. For example:
 
 Instead of this:
-```R
+
+``` r
 my_data <- my_data[which(my_data$col1 == 10 | my_data$col2 == "Yes"),]
 my_data$new_col <- 10*my_data$col1
 png("my_plot.png")
@@ -15,8 +16,10 @@ plot(my_data$col1, my_data$new_col)
 title("some title")
 dev.off()
 ```
+
 Do this:
-```R
+
+``` r
 my_data %>%
     filter(col1 == 10 | col2 == "Yes") %>%
     mutate(new_col = 10*col1) %>%
@@ -28,18 +31,29 @@ my_data %>%
 
 Complete the following analysis in `R` and generate an `RMarkdown` report to show the analysis and results:
 
-1. Read in the `gapminder_clean.csv` data as a `tibble` using `read_csv`.
-2. Filter the data to include only rows where `Year` is `1962` and then make a scatter plot comparing `'CO2 emissions (metric tons per capita)'` and `gdpPercap` for the filtered data. 
-3. On the filtered data, calculate the correlation of `'CO2 emissions (metric tons per capita)'` and `gdpPercap`. What is the correlation and associated p value?
-4. On the unfiltered data, answer "In what year is the correlation between `'CO2 emissions (metric tons per capita)'` and `gdpPercap` the strongest?" Filter the dataset to that year for the next step...
-5. Using `plotly`, create an interactive scatter plot comparing `'CO2 emissions (metric tons per capita)'` and `gdpPercap`, where the point size is determined by `pop` (population) and the color is determined by the `continent`. You can easily convert any `ggplot` plot to a `plotly` plot using the `ggplotly()` command.
+1.  Read in the `gapminder_clean.csv` data as a `tibble` using `read_csv`.
+
+2.  Filter the data to include only rows where `Year` is `1962` and then make a scatter plot comparing `'CO2 emissions (metric tons per capita)'` and `gdpPercap` for the filtered data.
+
+3.  On the filtered data, calculate the correlation of `'CO2 emissions (metric tons per capita)'` and `gdpPercap`. What is the correla
+
+        gapminder_plot = gapminder_filtered |>
+          ggplot(aes(x = gdpPercap, y = `CO2 emissions (metric tons per capita)`)) +
+          geom_point()
+        gapminder_plot
+
+    tion and associated p value?
+
+4.  On the unfiltered data, answer "In what year is the correlation between `'CO2 emissions (metric tons per capita)'` and `gdpPercap` the strongest?" Filter the dataset to that year for the next step...
+
+5.  Using `plotly`, create an interactive scatter plot comparing `'CO2 emissions (metric tons per capita)'` and `gdpPercap`, where the point size is determined by `pop` (population) and the color is determined by the `continent`. You can easily convert any `ggplot` plot to a `plotly` plot using the `ggplotly()` command.
 
 Now, without further guidance, use your `R` Data Science skills (and appropriate statistical tests) to answer the following (*use the unfiltered dataset*):
 
-1. What is the relationship between `continent` and `'Energy use (kg of oil equivalent per capita)'`? (stats test needed)
-2. Is there a significant difference between Europe and Asia with respect to `'Imports of goods and services (% of GDP)'` in the years after 1990? (stats test needed)
-3. What is the country (or countries) that has the highest `'Population density (people per sq. km of land area)'` across all years? (i.e., which country has the highest average ranking in this category across each time point in the dataset?)
-4. What country (or countries) has shown the greatest increase in `'Life expectancy at birth, total (years)'` between 1962 and 2007? 
+1.  What is the relationship between `continent` and `'Energy use (kg of oil equivalent per capita)'`? (stats test needed)
+2.  Is there a significant difference between Europe and Asia with respect to `'Imports of goods and services (% of GDP)'` in the years after 1990? (stats test needed)
+3.  What is the country (or countries) that has the highest `'Population density (people per sq. km of land area)'` across all years? (i.e., which country has the highest average ranking in this category across each time point in the dataset?)
+4.  What country (or countries) has shown the greatest increase in `'Life expectancy at birth, total (years)'` between 1962 and 2007?
 
 For each question, you should generate summary visualizations (preferrably interactive ones) that demonstrate your answer to each question. Additionally, the analysis must be user-friendly for a non-programmer and should intuitively convey the insights you uncovered. Use `markdown` to ensure that the text is organized and readable. Finally, the notbook should describe your reasoning for the statistical tests you chose to use.
 
@@ -49,12 +63,12 @@ Once you are done, export your `RMarkdown` to an `.html` file. Commit and push b
 
 For a passing evaluation, the code and HTML from this analysis should conform to the following standards:
 
-1. When possible, the analysis should be "self-reporting" (i.e., results should not be hardcoded into the markdown.) You can accomplish this with inline code chunks -- learn more [here](https://rmarkdown.rstudio.com/lesson-4.html).
-2. Code style counts. Make sure to style your notebook using [styler](https://www.tidyverse.org/blog/2017/12/styler-1.0.0/) before submitting it!
-3. The HTML rendered from the notebook should be user-friendly and well-styled as well.
-    - Consider using a [theme](https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style) for your notebook, along with a [table of contents](https://bookdown.org/yihui/rmarkdown/html-document.html#table-of-contents)
-    - Optimize your plots for readability -- [tutorial](https://cedricscherer.netlify.app/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/)
-    - Refrain from showing raw text output to the reader as this is unfriendly for non-computational readers. Especially, for tables, consider using [kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) or [DT](https://rstudio.github.io/DT/).
+1.  When possible, the analysis should be "self-reporting" (i.e., results should not be hardcoded into the markdown.) You can accomplish this with inline code chunks -- learn more [here](https://rmarkdown.rstudio.com/lesson-4.html).
+2.  Code style counts. Make sure to style your notebook using [styler](https://www.tidyverse.org/blog/2017/12/styler-1.0.0/) before submitting it!
+3.  The HTML rendered from the notebook should be user-friendly and well-styled as well.
+    -   Consider using a [theme](https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style) for your notebook, along with a [table of contents](https://bookdown.org/yihui/rmarkdown/html-document.html#table-of-contents)
+    -   Optimize your plots for readability -- [tutorial](https://cedricscherer.netlify.app/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/)
+    -   Refrain from showing raw text output to the reader as this is unfriendly for non-computational readers. Especially, for tables, consider using [kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) or [DT](https://rstudio.github.io/DT/).
 
 ## Learning Resources
 
