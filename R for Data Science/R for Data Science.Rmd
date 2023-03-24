@@ -20,9 +20,10 @@ gapminder_filtered
 
 gapminder_plot <- ggplot(gapminder_filtered, aes(x = gdpPercap, y = `CO2 emissions (metric tons per capita)`)) +
   geom_point()
-
+ 
 gapminder_plot
 ```
+
 ## Finding correlation
 
 
