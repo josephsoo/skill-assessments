@@ -91,6 +91,7 @@ def computer_choice(board, symbol):
             return i
 
 
+# Returns true if the player's input starts with y (probably typed in yes)
 def replay():
     return input("Do you want to play again? Enter 'Yes' or 'No': ").lower().startswith('y')
 
