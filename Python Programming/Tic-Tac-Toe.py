@@ -37,7 +37,7 @@ def win_check(board, symbol):
             (board[2] == symbol and board[4] == symbol and board[6] == symbol)
     )
 
-
+# Randomly pick who goes first
 def choose_first():
     if random.randint(0, 1) == 0:
         return 'computer'
