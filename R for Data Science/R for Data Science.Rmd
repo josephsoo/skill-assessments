@@ -7,24 +7,32 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-## Reading the gapminder into a tibble
+## 1. Reading the gapminder into a tibble
 
 ```{r}
-gapminder <- read_csv("gapminder_clean.csv")
+gapminder <- read_csv("R for Data Science/gapminder_clean.csv")
 gapminder
 ```
-## Filtering and plotting the data
+## 2. Filtering and plotting the data
 ```{r}
 gapminder_filtered <- filter(gapminder, Year == 1962)
 gapminder_filtered
 
-gapminder_plot <- ggplot(gapminder_filtered, aes(x = gdpPercap, y = `CO2 emissions (metric tons per capita)`)) +
+gapminder_plot <- ggplot(gapminder_filtered, aes(x = gdpPercap,
+  y = `CO2 emissions (metric tons per capita)`)) +
   geom_point()
+  ggsave("gapminderplot.png")
  
 gapminder_plot
 ```
 
-## Finding correlation
+## 3. Finding correlation
+```{r}
+correlation <- cor.test(gapminder_filtered$`CO2 emissions (metric tons per capita)`, gapminder_filtered$gdpPercap)
+correlation
+correlation$p.value
+
+```
 
 
 
