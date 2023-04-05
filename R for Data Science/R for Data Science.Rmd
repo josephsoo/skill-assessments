@@ -3,14 +3,16 @@
 ```{r}
 #import and load the required packages
 install.packages("tidyverse")
+install.packages("plotly")
 library(tidyverse)
 library(ggplot2)
+library(plotly)
 ```
 
 ## 1. Reading the gapminder into a tibble
 
 ```{r}
-gapminder <- read_csv("R for Data Science/gapminder_clean.csv")
+gapminder <- read_csv("gapminder_clean.csv")
 gapminder
 ```
 ## 2. Filtering and plotting the data
@@ -28,11 +30,57 @@ gapminder_plot
 
 ## 3. Finding correlation
 ```{r}
-correlation <- cor.test(gapminder_filtered$`CO2 emissions (metric tons per capita)`, gapminder_filtered$gdpPercap)
+correlation <- cor(gapminder_filtered$`CO2 emissions (metric tons per capita)`,
+  gapminder_filtered$gdpPercap, use = "complete.obs")
+p_value <- cor.test(gapminder_filtered$`CO2 emissions (metric tons per capita)`,
+  gapminder_filtered$gdpPercap)$p.value
 correlation
-correlation$p.value
+p_value
+```
+
+## 4
+```{r}
+#cor_by_year <- gapminder |>
+#  group_by(Year) |>
+#  summarise(cor(gapminder_filtered$`CO2 emissions (metric tons per capita)`,
+#  gapminder_filtered$gdpPercap, use = "complete.obs"))
+
+# strongest_year_row <- filter(cor_by_year, correlation == max(correlation))
+# strongest_year_row
+# strongest_year <- strongest_year_row$Year
+# strongest_year
+
+gapminder_filtered <- gapminder %>%
+  filter(!is.na(`CO2 emissions (metric tons per capita)`), !is.na(gdpPercap))
+
+cor_by_year <- gapminder_filtered %>%
+  group_by(Year) %>%
+  summarise(correlation = cor(`CO2 emissions (metric tons per capita)`, gdpPercap, use = "complete.obs"))
+  
+cor_by_year
+strongest_year_row <- cor_by_year %>%
+  filter(correlation == max(correlation)) %>%
+  slice(1)
+
+strongest_year <- strongest_year_row
+strongest_year
 
 ```
 
+## 5
+```{r}
 
+gapminder_strongest_year <- gapminder %>%
+  filter(Year == 1967)
+
+gapminder_strongest_year
+strongest_year_plot <- ggplot(gapminder_strongest_year, 
+  aes(x = gdpPercap, y = `CO2 emissions (metric tons per capita)`, 
+  color = continent, 
+  size = pop)) +
+  geom_point()
+ggplotly(strongest_year_plot)
+
+
+```
 
