@@ -2,11 +2,19 @@
 
 ```{r}
 #import and load the required packages
-install.packages("tidyverse")
-install.packages("plotly")
+#install.packages("tidyverse")
+#install.packages("plotly")
 library(tidyverse)
 library(ggplot2)
 library(plotly)
+if (!require(ggpubr)) {
+install.packages("ggpubr")
+}
+if (!require(moments)) {
+install.packages("moments")
+}
+library(ggpubr)
+
 ```
 
 ## 1. Reading the gapminder into a tibble
@@ -83,4 +91,88 @@ ggplotly(strongest_year_plot)
 
 
 ```
+
+## 1
+
+We want to test if there is a statistically significant difference in the Energy use per continent. Thus, continent is the predictor variable, and energy use is the outcome variable. 
+
+To use a parametric test, we must ensure that three assumptions are met: Normality, equal variances, and independence.
+
+Normality assumption:
+To test for normality, we conduct a Shapiro-Wilk Test for Normality.
+
+```{r}
+#Conduct Shapiro-Wilk Test for normality 
+shapiro.test(gapminder$"Energy use (kg of oil equivalent per capita)")
+```
+As we can see, the p value of the test is < 2.2e-16, which is less than the alpha level of 0.05. This suggests that the samples do not come from a normal distribution.
+
+
+
+Therefore, we conduct a Kruskal-Wallis H test
+```{r}
+kruskal.test(`Energy use (kg of oil equivalent per capita)` ~ continent, data = gapminder)
+```
+Thus can reject the null hypothesis that there is no difference in the mean ranks of energy use across continents.
+```{r}
+ggplot(gapminder, aes(x = `Energy use (kg of oil equivalent per capita)`)) +
+geom_histogram(bins = 30) +
+facet_wrap(~continent) +
+labs(title = "Histogram of energy use per capita by continent",
+x = "Energy use (kg of oil equivalent per capita)",
+y = "Frequency")
+
+#convert ggplot2 plot to plotly plot
+ggplotly()
+``` 
+
+## 2
+Is there a significant difference between Europe and Asia with respect to 'Imports of goods and services (% of GDP)' in the years after 1990? (stats test needed)
+
+### Filtering the data
+
+```{r}
+gapminder_years <- gapminder %>%
+  filter(Year > 1990)
+```
+
+### Plotting a qqplot
+```{r}
+# ggqqplot(data = gapminder_years, x = 'Imports of goods and services (% of GDP)', facet.by = 'continent')
+
+# Filter data for the years after 1990
+data <- gapminder %>% 
+filter(Year > 1990) %>% 
+ select(continent, Year, `Imports of goods and services (% of GDP)`)
+
+# Rename the variable for convenience
+data <- data %>% 
+rename(gdp = `Imports of goods and services (% of GDP)`)
+
+# Plot Q-Q plot with facet by continent
+ggqqplot(data = data, x = "gdp", facet.by = "continent")
+
+```
+### Shapiro-Wilk Test for Normality
+
+
+```{r}
+europe <- gapminder_years %>% 
+filter(continent == "Europe")
+
+asia <- gapminder_years %>% 
+filter(continent == "Asia")
+
+skewness(europe$'Imports of goods and services (% of GDP)', na.rm = TRUE)
+kurtosis(europe$'Imports of goods and services (% of GDP)', na.rm = TRUE)
+shapiro.test(europe$'Imports of goods and services (% of GDP)'[complete.cases(data)]) 
+skewness(asia$'Imports of goods and services (% of GDP)', na.rm = TRUE) 
+kurtosis(asia$'Imports of goods and services (% of GDP)', na.rm = TRUE) 
+shapiro.test(asia$'Imports of goods and services (% of GDP)'[complete.cases(data)]) 
+```
+As we can see, the p-values are less than 0.05. Therefore, we can reject the null hypothesis that the data is normally distributed, and we can apply a log transform.
+
+
+
+shapiro.test(x = mtcars$wt)
 
