@@ -1,6 +1,7 @@
 # R for Data Science assessment
 
 ```{r}
+options(repos = "http://cran.us.r-project.org") 
 #import and load the required packages
 #install.packages("tidyverse")
 #install.packages("plotly")
@@ -20,6 +21,7 @@ library(ggpubr)
 ## 1. Reading the gapminder into a tibble
 
 ```{r}
+setwd('R for Data Science')
 gapminder <- read_csv("gapminder_clean.csv")
 gapminder
 ```
@@ -171,8 +173,4 @@ kurtosis(asia$'Imports of goods and services (% of GDP)', na.rm = TRUE)
 shapiro.test(asia$'Imports of goods and services (% of GDP)'[complete.cases(data)]) 
 ```
 As we can see, the p-values are less than 0.05. Therefore, we can reject the null hypothesis that the data is normally distributed, and we can apply a log transform.
-
-
-
-shapiro.test(x = mtcars$wt)
 

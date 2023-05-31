@@ -13,7 +13,7 @@ def display_board(board):
 
 
 def player_input():
-    symbol = ''
+    symbol = ""
     while symbol != 'X' and symbol != 'O':
         symbol = input("Do you want to be X or O? ").upper()
         if symbol != 'X' and symbol != 'O':
@@ -36,13 +36,6 @@ def win_check(board, symbol):
             (board[0] == symbol and board[4] == symbol and board[8] == symbol) or
             (board[2] == symbol and board[4] == symbol and board[6] == symbol)
     )
-
-# Randomly pick who goes first
-def choose_first():
-    if random.randint(0, 1) == 0:
-        return 'computer'
-    else:
-        return 'player'
 
 
 def space_check(board, position):
@@ -103,11 +96,13 @@ while True:
     player_symbol = player_input()
     if player_symbol == 'X':
         computer_symbol = 'O'
+        print("player will go first")
+        turn = 'player'
     else:
         computer_symbol = 'X'
+        print("computer will go first")
+        turn = 'computer'
 
-    turn = choose_first()
-    print(turn + ' will go first.')
 
     play_game = input('Are you ready to play? Enter Yes or No.')
     if play_game.lower()[0] == 'y':
