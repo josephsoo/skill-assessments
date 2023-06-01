@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# A tic-tac-toe script that allows two players to play the game on a 3x3 board
+# A tic-tac-toe script that allows a player and a computer to play the game
 
 # Define a function to create an empty board
 create_board <- function() {
