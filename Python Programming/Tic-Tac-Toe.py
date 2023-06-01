@@ -51,12 +51,19 @@ def full_board_check(board):
 
 def player_choice(board):
     position = -1
-    while position < 0 or position > 8 or not space_check(board, position):
-        position = int(input("Choose your next position (1-9): ")) - 1
+    while True:
+        entry = input("Choose your next position (1-9): ")
+        if (not (entry.isdigit())):
+            print("Invalid input! Please choose a number between 1 and 9.")
+            continue
+        position = int(entry) - 1
         if position < 0 or position > 8:
-            logging.warning("Invalid input! Please choose a number between 1 and 9.")
+            print("Invalid input! Please choose a number between 1 and 9.")
+            continue
         elif not space_check(board, position):
-            logging.warning("This position is already occupied! Please choose another.")
+            print("This position is already occupied! Please choose another.")
+            continue
+        break
     return position
 
 
@@ -102,13 +109,8 @@ while True:
         computer_symbol = 'X'
         print("computer will go first")
         turn = 'computer'
-
-
-    play_game = input('Are you ready to play? Enter Yes or No.')
-    if play_game.lower()[0] == 'y':
-        game_on = True
-    else:
-        game_on = False
+    
+    game_on = True
 
     while game_on:
         if turn == 'player':
@@ -124,10 +126,11 @@ while True:
                 if full_board_check(board):
                     display_board(board)
                     print('The game is a draw!')
-                    break
+                    game_on = False
                 else:
                     turn = 'computer'
 
+# Computer makes a move
         else:
             position = computer_choice(board, computer_symbol)
             place_marker(board, computer_symbol, position)
