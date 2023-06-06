@@ -56,11 +56,10 @@ def player_choice(board):
         if position < 0 or position > 8:
             print("Invalid input! Please choose a number between 1 and 9.")
             continue
-        elif not space_check(board, position):
+        if not space_check(board, position):
             print("This position is already occupied! Please choose another.")
             continue
-        break
-    return position
+        return position
 
 
 def computer_choice(board, symbol):

@@ -4,7 +4,7 @@
 
 # Define a function to create an empty board
 create_board <- function() {
-    board <- matrix("", nrow = 3, ncol = 3)
+    board <- matrix(" ", nrow = 3, ncol = 3)
     return(board)
 }
 
@@ -12,9 +12,9 @@ create_board <- function() {
 display_board <- function(board) {
     cat("\n")
     cat(" ", board[1, 1], "|", board[1, 2], "|", board[1, 3], "\n")
-    cat("-----------\n")
+    cat("-------------\n")
     cat(" ", board[2, 1], "|", board[2, 2], "|", board[2, 3], "\n")
-    cat("-----------\n")
+    cat("-------------\n")
     cat(" ", board[3, 1], "|", board[3, 2], "|", board[3, 3], "\n")
     cat("\n")
 }
@@ -24,7 +24,7 @@ space_check <- function(board, row, col) {
     if (row < 1 || row > 3 || col < 1 || col > 3) {
         return(FALSE)
     }
-    if (board[row, col] != "") {
+    if (board[row, col] != " ") {
         return(FALSE)
     }
     return(TRUE)
@@ -38,7 +38,7 @@ make_move <- function(board, row, col, symbol) {
 
 # Define a function to check if the board is full
 is_full <- function(board) {
-    return(all(board != ""))
+    return(all(board != " "))
 }
 
 # Define a function to check if a player has won
@@ -110,7 +110,7 @@ playermove <- function(board) {
     while (TRUE) {
         cat(
             "Player", "(", playersymbol,
-            "): Enter row followed by the column (1-3)\n"
+            "): Enter row followed by the column (1-3) example: 31\n"
         )
         if (interactive()) {
             con <- stdin()
@@ -289,7 +289,7 @@ computermove <- function(board) {
 
 # Start the game
 print("start")
-playersymbol <- ""
-computersymbol <- ""
+playersymbol <- " "
+computersymbol <- " "
 
 play_game()
