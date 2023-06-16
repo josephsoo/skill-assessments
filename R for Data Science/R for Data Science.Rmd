@@ -132,18 +132,20 @@ Is there a significant difference between Europe and Asia with respect to 'Impor
 ```{r}
 gapminder_years <- gapminder %>%
   filter(Year > 1990) %>%
-  filter(continent == "Asia" | continent == "Europe")
+  filter(continent == "Asia" | continent == "Europe") |>
+  rename(gdp = `Imports of goods and services (% of GDP)`)
+
 ```
 ### Visualizations 
 ```{r}
 # Create box plots
+
 box_plot <- ggplot(gapminder_years, aes(x = continent, y = `gdp`, fill = continent)) +
   geom_boxplot() +
   labs(x = "Continent", y = "Imports of goods and services (% of GDP)", fill = "Continent") +
   ggtitle("Box Plots of GDP Imports by Continent")
 
 ggplotly(box_plot)
-
 # Create density plots
 density_plot <- ggplot(gapminder_years, aes(x = `gdp`, fill = continent)) +
   geom_density(alpha = 0.5) +
@@ -153,7 +155,7 @@ density_plot <- ggplot(gapminder_years, aes(x = `gdp`, fill = continent)) +
 ggplotly(density_plot)
 ```
 
-Visually, the two continent's GPD is very close and have much overlap, although the variances appear to be different and there appears to be 4 outliers for Asia.
+Visually, the two continent's import of goods and services are very close with overlapping peaks, although the variances appear to be different and there appears to be 4 outlies in Asia.
 
 ### Plotting a qqplot
 ```{r}
@@ -162,23 +164,69 @@ Visually, the two continent's GPD is very close and have much overlap, although 
 # Filter data for the years after 1990
 data <- gapminder_years
 
-
-# Rename the variable for convenience
-gapminder_years <- gapminder_years %>% 
-rename(gdp = `Imports of goods and services (% of GDP)`)
-
 # Plot Q-Q plot with facet by continent
 ggplotly(ggqqplot(data = gapminder_years, x = "gdp", facet.by = "continent"))
 
 ```
-For Asia, there are a few points with a high GDP above the diagonal line. As normality has been violated, it would not be appropriate to use a parametric test, so we use a Mann-Whitney-Wilcoxon Test.
+For Asia, there are a few points with a high GDP above the diagonal line. As normality has been violated, it would not be appropriate to use a parametric test, so we use the non-parametric Mann-Whitney-Wilcoxon Test.
 
 ### Perform Mann-Whitney-Wilcoxon Test
 ```{r}
 result <- wilcox.test(gdp ~ continent, data = gapminder_years)
 print(result)
 ```
-As the p-value is greater than 0.05, there is not a significant difference in GDP between Europe and Asia
+As the p-value is greater than 0.05, there is not a significant difference in 'Imports of goods and services (% of GDP)' between Europe and Asia
 
 ## 3 
+What is the country (or countries) that has the highest `'Population density (people per sq. km of land area)'` across all years? (i.e., which country has the highest average ranking in this category across each time point in the dataset?)
+
+
+```{r}
+gapminder_pd <- gapminder %>%
+  group_by(`Country Name`) %>%
+  summarize(`Mean population density` = mean(`Population density (people per sq. km of land area)`, , na.rm = TRUE))  %>%
+  arrange(desc(`Mean population density`)) %>%
+  slice_head(n = 5)
+
+head(gapminder_pd)
+
+
+mean_pd_plot <- gapminder_pd %>%
+  ggplot(aes(x = `Country Name`, y = `Mean population density`)) +
+  ggtitle('Mean population density of the top 5 countries') +
+  geom_bar(stat = 'Identity')
+ggplotly(mean_pd_plot)
+gapminder_pd %>% slice(1:1)
+```
+As seen from bar chart, Macao SAR, China bas the greatest population density across the years, with a mean population density of 14732.04 people per square km.
+
+## 4 What country (or countries) has shown the greatest increase in `'Life expectancy at birth, total (years)'` between 1962 and 2007?
+
+```{r}
+gapminder_difference <-
+```
+
+
+```{r}
+gapminder_difference <-gapminder %>%
+  filter(Year %in% c(1962, 2007)) %>%
+  group_by(`Country Name`)%>%
+  arrange((`Life expectancy at birth, total (years)`)) %>%
+  reframe(`Difference in Life expectancy (2007 - 1962)` = diff(`Life expectancy at birth, total (years)`)) %>%
+  arrange(desc(`Difference in Life expectancy (2007 - 1962)`)) %>%
+  slice(1:5)
+
+gapminder_difference_plot <- gapminder_difference %>%
+  ggplot(aes(x = `Country Name`,  y = `Difference in Life expectancy (2007 - 1962)`)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Top 5 countries with the greatest increase in life expectancy from 1962 to 2007")
+
+ggplotly(gapminder_difference_plot)
+
+```
+As seen from the above bar chart, the country whose life expectancy increased the most from 1962 - 2007 for Maldives
+
+
+
+
 
