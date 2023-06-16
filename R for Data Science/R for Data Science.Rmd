@@ -54,7 +54,8 @@ gapminder_filtered
 
 gapminder_plot <- ggplot(gapminder_filtered, aes(x = gdpPercap,
   y = `CO2 emissions (metric tons per capita)`)) +
-  geom_point()
+  geom_point() +
+  
   
   ggsave("gapminderplot.png")
  
@@ -67,8 +68,8 @@ correlation <- cor(gapminder_filtered$`CO2 emissions (metric tons per capita)`,
   gapminder_filtered$gdpPercap, use = "complete.obs")
 p_value <- cor.test(gapminder_filtered$`CO2 emissions (metric tons per capita)`,
   gapminder_filtered$gdpPercap)$p.value
-correlation
-p_value
+print(paste("The correlation coefficient is", as.character(correlation)))
+print(paste("The p-value is", as.character(p_value)))
 ```
 
 ## 4 On the unfiltered data, answer “In what year is the correlation between 'CO2 emissions (metric tons per capita)' and gdpPercap the strongest?” Filter the dataset to that year for the next step…
@@ -164,7 +165,7 @@ density_plot <- ggplot(gapminder_years, aes(x = `Imports of goods and services (
 ggplotly(density_plot)
 ```
 
-Visually, the two continent's import of goods and services are very close with overlapping peaks, although the variances appear to be different and there appears to be 4 outliers in Asia.
+Visually, the two continent's import of goods and services are very close with overlapping peaks, although the variances appear to be different. There appears to be 4 outliers in Asia.
 
 ### Plotting a qqplot
 ```{r}
@@ -209,7 +210,7 @@ colnames(gapminder_dense)[1] <- "Country with the most population density"
 
 datatable(gapminder_dense)
 ```
-As seen from bar chart, Macao SAR, China bas the greatest population density across the years, with a mean population density of 14732.04 people per square km.
+As seen from bar chart, Macao SAR, China has the greatest population density across the years.
 
 ## 4 What country (or countries) has shown the greatest increase in `'Life expectancy at birth, total (years)'` between 1962 and 2007?
 
