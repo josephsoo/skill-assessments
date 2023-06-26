@@ -84,8 +84,7 @@ We want to test if there is a statistically significant difference in the Energy
 
 To use a parametric test, we must ensure that three assumptions are met: Normality, equal variances, and independence.
 
-Normality assumption:
-To check for normality, we use a qqplot.
+We can check for normality using histograms of energy use for each continent
 
 ```{r}
 ggplot(gapminder, aes(x = `Energy use (kg of oil equivalent per capita)`)) +
@@ -152,29 +151,24 @@ As the p-value is greater than 0.05, we did not find a significant difference in
 
 ## 3. What is the country (or countries) that has the highest `'Population density (people per sq. km of land area)'` across all years? (i.e., which country has the highest average ranking in this category across each time point in the dataset?)
 
-
 ```{r}
-# Calculating the mean population density by country, then extracting the 5 countries with the greatest population density.
+# Getting the ranked populations descending (the country with the greatest population density would be #1)
 gapminder_pd <- gapminder %>%
+  group_by(`Year`) %>%
+  mutate(population_rank = rank(-`Population density (people per sq. km of land area)`)) %>%
+  dplyr::select(population_rank, `Country Name`)
+
+# Taking the average population rank
+
+gapminder_rank_mean <- gapminder_pd %>%
   group_by(`Country Name`) %>%
-  summarize(`Mean population density` = mean(`Population density (people per sq. km of land area)`, na.rm = TRUE))  %>%
-  arrange(desc(`Mean population density`)) %>%
-  slice_head(n = 5)
+  summarize(mean_population_density_rank = mean(population_rank)) %>%
+  arrange(mean_population_density_rank) %>%
+  slice(1:5)
 
-datatable(gapminder_pd)
-
-mean_pd_plot <- gapminder_pd %>%
-  ggplot(aes(x = `Country Name`, y = `Mean population density`)) +
-  ggtitle('Mean population density of the top 5 countries') +
-  geom_bar(stat = 'Identity')
-ggplotly(mean_pd_plot)
-gapminder_dense <- gapminder_pd %>% slice(1)
-
-colnames(gapminder_dense)[1] <- "Country with the most population density"
-
-datatable(gapminder_dense)
+datatable(gapminder_rank_mean)
 ```
-As seen from bar chart, Macao SAR, China has the greatest population density across the years.
+As seen from bar chart, Macao SAR, China and Monaco are tied for having the highest `'Population density (people per sq. km of land area)'` across all years.
 
 ## 4. What country (or countries) has shown the greatest increase in `'Life expectancy at birth, total (years)'` between 1962 and 2007?
 
