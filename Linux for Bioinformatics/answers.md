@@ -16,7 +16,7 @@ A: ls does nothing on my_folder and my_folder2, but ls on my_folder3 produces he
 
 Q5: What editor did you use and what was the command to save your file changes?
 
-A: Using nano, I pressed CTRL-O to save
+A: Using nano, I pressed CTRL-O followed by enter to save
 
 Q6: What is the error?
 
@@ -49,7 +49,7 @@ A: /home/serveruser/mambaforge/envs/py27/bin/python
 
 Q13: What is the output of `which python` now?
 
-A:/home/serveruser/mambaforge/bin/python
+A: /home/serveruser/mambaforge/bin/python
 
 Q14: What is the output of `salmon -h`?
 
@@ -70,55 +70,57 @@ Commands:
 
 Q15: What does the `-o athal.fa.gz` part of the command do?
 
-A: -o athal.fa.gz allows the computer to write the output to athal.fa.gz instead of stdout. (defaults to the user's screen)
+A: -o athal.fa.gz allows the computer to write the output to athal.fa.gz instead of stdout. 
 
 Q16: What is a `.gz` file?
 
-A: a `.gz` file is a compression format for Linux and Unix operating systems
+A: a `.gz` file is a file that has been **compressed** using the standard GNU zip (gzip) compression algorithm for Linux and Unix operating systems
 
 Q17. What does the `zcat` command do?
 
-A: zcat expands the .gz file without having to decompress it
+A: zcat **expands the .gz file** without having to decompress it, and outputs the output to **stdout**
 
 Q18. what does the `head` command do?
 
-A: `head` prints the first lines to stdout
+A: `head` prints the first lines of the input to stdout
 
 Q19. what does the number `100` signify in the command?
 
-A: `100` signifies that the first 100 lines are printed.
+A: `100` signifies that the **first 100 lines are printed**.
 
 Q20. What is `|` doing?** -- **Hint** using `|` in Linux is called "piping"  
 
-A: The pipe operator `|` allows the stdout on the right to go to the stdin on the left
+A: The pipe operator `|` allows the stdout on the left to be piped into to the stdin on the right
 
 Q21. What is a `.fa` file? What is this file format used for?
 
-A: An FA file contains either nucleic acid sequence (such as DNA) or protein sequence information.
+A: An FA file contains either **nucleic acid sequence (such as DNA) or protein sequence information**.
 
 Q22: What format are the downloaded sequencing reads in? 
 
-A: The extension is .sra
+A: The format is **.sra**
 
 Q23: What is the total size of the disk?
 
-A: The total size of teh disk is 7.6G
+A: The total size of the disk is **7.6G**
 
 Q24: How much space is remaining on the disk?
 
-A: 1.3G is remaining on the disk
+A: **1.3G** is remaining on the disk
 
 Q25: What went wrong?
 
-A: 2023-06-26T04:51:49 fastq-dump.2.11.0 err: storage exhausted while writing file within file system module - system bad file descriptor error fd='5'
-2023-06-26T04:51:49 fastq-dump.2.11.0 err: storage exhausted while writing file within file system module - system bad file descriptor error fd='5'
+A: 
+fastq-dump.2.11.0 err: storage exhausted while writing file within file system module - system bad file descriptor error fd='5'
+> many of those were printed to the console
 
-I got a bunch of those, with this at the end
-=============================================================
 An error occurred during processing.
 A report was generated into the file '/home/serveruser/ncbi_error_report.txt'.
 If the problem persists, you may consider sending the file
 to 'sra-tools@ncbi.nlm.nih.gov' for assistance.
-=============================================================
 
+
+> Essentialy, the server ran out of storage
+
+Q26: I modified the command to **fastq-dump --gzip SRR074122**, outputting as a .gz file
 
