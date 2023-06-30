@@ -21,12 +21,12 @@ A: Using nano, I pressed CTRL-O followed by enter to save
 Q6: What is the error?
 
 A: Permission denied (publickey).
-It lacks an authorized_keys file in SSH, which specifies the SSH keys which can be used for logging into the user account.
+It lacks an authorized_keys file in SSH, which specifies the SSH keys which can be used for logging into the serveruser.
 
 
 Q7: What was the solution?
 
-A: I created a .ssh directory, added the authorized_keys file, changed its permission to 600, and copy pasted the public key from my ubuntu user.
+A: I created a .ssh directory, added the authorized_keys file, changed its permission to 600 (giving myself read + write permission), and copy pasted the public key from my ubuntu user's authorized_keys file to the authorized_keys file for serveruser.
 
 Q8: what does the `sudo docker run` part of the command do? and what does the `salmon swim` part of the command do?
 
@@ -70,7 +70,7 @@ Commands:
 
 Q15: What does the `-o athal.fa.gz` part of the command do?
 
-A: -o athal.fa.gz allows the computer to write the output to athal.fa.gz instead of stdout. 
+A: -o athal.fa.gz makes the command output to athal.fa.gz instead of stdout. 
 
 Q16: What is a `.gz` file?
 
