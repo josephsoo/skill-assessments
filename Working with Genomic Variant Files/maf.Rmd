@@ -39,11 +39,12 @@ variants_median <- median(lgg@variants.per.sample[["Variants"]])
 variants_median
 ```
 ```{r}
-library(tidyverse)
+png(file="transition_to_transversion.png")
 lgg.titv = titv(maf = lgg, plot = FALSE, useSyn = FALSE)
 #plot titv summary
 plotTiTv(res = lgg.titv, plotType = "box")
-ggsave("transition_to_transversion.png", device = "png")
+dev.off
+
 ```
 
 
@@ -54,12 +55,14 @@ ggsave("transition_to_transversion.png", device = "png")
 
 
 ```{r}
+png(file="oncoplot_top_5.png")
 oncoplot(maf = lgg, top = 5)
-ggsave("oncoplot_top_5.png", device = "png")
+dev.off()
 ```
 
 ```{r}
+png(file="mutation_log_comparison.png")
 laml.mutload = tcgaCompare(maf = lgg, cohortName = 'Example-LGG', logscale = TRUE, capture_size = 50)
-ggsave("mutation_log_comparison.png", device = "png")
+dev.off()
 
 ```
