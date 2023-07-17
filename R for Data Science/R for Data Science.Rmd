@@ -25,7 +25,7 @@ Here, we read the gapminder_clean.csv file using tidyverse function read_csv()
 gapminder <- read_csv("gapminder_clean.csv")
 ```
 ## 2. Filtering and plotting the data
-We filter the gapminder dataset to only include data from the year 1962, then plot the log transformed CO2 emissions against gdpPerCap emissions
+We filter the gapminder dataset to only include data from the year 1962, then plot the log transformed (to reduce skewness) CO2 emissions against gdpPerCap emissions
 ```{r, results='hide', warning = FALSE}
 gapminder_filtered <- filter(gapminder, Year == 1962)
 
@@ -39,7 +39,7 @@ gapminder_plot
 ```
 
 ## 3. Finding correlation
-Here, we use the cor() function to calculate the Pearson Correlation Coefficient between CO2 emissions (metric tons per capita) and gdpPercap for the year 1962. Then, we calculate the p_value of the correlation coefficient
+Here, we use the cor() function to calculate the Pearson correlation coefficient between CO2 emissions (metric tons per capita) and gdpPercap for the year 1962. Then, we calculate the p_value of the correlation coefficient.
 ```{r, warning = FALSE}
 correlation <- cor(gapminder_filtered$`CO2 emissions (metric tons per capita)`,
   gapminder_filtered$gdpPercap, use = "complete.obs")
@@ -50,7 +50,7 @@ print(paste("The p-value is", as.character(p_value)))
 ```
 
 ## 4. On the unfiltered data, answer “In what year is the correlation between 'CO2 emissions (metric tons per capita)' and gdpPercap the strongest?” Filter the dataset to that year for the next step…
-First, we filter out points in the data with incomplete points for CO2 emissions (metric tons per capita)' and gdpPercap. Next, we calculate the correlation for each year, and search for the year with the greatest correlation
+First, we filter out points in the data with incomplete points for CO2 emissions (metric tons per capita)' and gdpPercap. Next, we calculate the correlation for each year, and search for the year with the greatest correlation, which gives us the year with the strongest correlation
 ```{r, warning = FALSE}
 gapminder_filtered <- gapminder %>%
   filter(!is.na(`CO2 emissions (metric tons per capita)`), !is.na(gdpPercap))
@@ -89,7 +89,7 @@ We want to test if there is a statistically significant difference in the Energy
 
 To use a parametric test, we must ensure that three assumptions are met: Normality, equal variances, and independence.
 
-We visually assess normality using histograms of energy use for each continent
+We can visually assess normality using histograms of energy use for each continent
 
 ```{r, warning = FALSE}
 ggplot(gapminder, aes(x = `Energy use (kg of oil equivalent per capita)`)) +
@@ -99,7 +99,7 @@ ggplot(gapminder, aes(x = `Energy use (kg of oil equivalent per capita)`)) +
   ylab("Frequency")
 ```
 
-Visually, the data is not normally distributed. Therefore, we use the non-parametric Kruskal-Wallis test to test for a significant difference in variance between continents for Energy use.
+As seen from the histograms, the data is not normally distributed for each continent. Therefore, we can use the non-parametric Kruskal-Wallis test, which does not assume normality to test for a significant difference in variance between continents for Energy use.
 
 ```{r, warning = FALSE, echo=FALSE}
 kruskal.test(gapminder$`Energy use (kg of oil equivalent per capita)`, gapminder$continent, na.action = "na.omit")
@@ -109,7 +109,7 @@ As we can see, the p value is less than 2.2e-16, which is less than 0.05. Theref
 
 ## 2. Is there a significant difference between Europe and Asia with respect to 'Imports of goods and services (% of GDP)' in the years after 1990? (stats test needed)
 ### Filtering the data
-Here, we filter the points past 1990, and create a density plot and boxplot to compare Europe and Asia's imports of goods and services (% of GDP)
+Here, we filter the points past 1990, and create a density plot and boxplot to compare Europe and Asia's imports of goods and services (% of GDP). This way, we can visually assess the difference in Imports of goods and services (% of GDP)
 ```{r, warning = FALSE}
 gapminder_years <- gapminder %>%
   filter(Year > 1990) %>%
@@ -134,10 +134,10 @@ density_plot <- ggplot(gapminder_years, aes(x = `Imports of goods and services (
 ggplotly(density_plot)
 ```
 
-Visually, the two continent's import of goods and services are very close with overlapping peaks, although the variances appear to be different. There appears to be 4 outliers in Asia.
+Visually, the two continent's import of goods and services are very close with overlapping peaks, although the variance appears to vary between the two continents. 
 
 ### Plotting a qqplot
-We plot a qqplot for asia and europe's import of goods and services to assess normality.
+We plot a qqplot for asia and europe's import of goods and services to assess normality. If the points fall in a relatively straight line, we can conclude that the data is normally distributed.
 ```{r, warning = FALSE, echo=FALSE}
 # Filter data for the years after 1990
 data <- gapminder_years
@@ -145,7 +145,7 @@ data <- gapminder_years
 # Plot Q-Q plot with facet by continent
 ggplotly(ggqqplot(data = gapminder_years, x = "`Imports of goods and services (% of GDP)`", facet.by = "continent"))
 ```
-For Asia, there are a few points with a high GDP above the diagonal line. As normality has been violated, it would not be appropriate to use a parametric test, so we use the non-parametric Mann-Whitney-Wilcoxon Test.
+For Asia, there are a few points with a high GDP above the diagonal line on the right. Those points do not fall in a straight line, so we can conclude that normality has been violated, and it would not be appropriate to use a parametric test. Therefore, so we use the non-parametric Mann-Whitney-Wilcoxon Test, which does not assume normality.
 
 ### Perform Mann-Whitney-Wilcoxon Test
 We perform the Mann-Whitney-Wilcoxon Test, to test for the equality of means between Europe and Asia for the import of goods and services.
@@ -184,7 +184,7 @@ As seen from bar chart, Macao SAR, China and Monaco are tied for having the high
 
 ## 4. What country (or countries) has shown the greatest increase in `'Life expectancy at birth, total (years)'` between 1962 and 2007?
 
-We plot a bar chart of the top 5 countries with the greatest difference in life expectancy at birth between 1962 and 2007.
+We can plot a bar chart of the top 5 countries with the greatest difference in life expectancy at birth between 1962 and 2007.
 ```{r, warning = FALSE}
 # Get the top 5 countries with the greatest increase in life expectancies
 gapminder_difference <-gapminder %>%
