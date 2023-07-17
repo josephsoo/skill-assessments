@@ -12,3 +12,8 @@ A4: There are **1075** positions with `AC=1`
 
 Q5: What is the ratio of transitions to transversions (ts/tv) in this file?
 A5: the ratio of transitions to transversions in this file is
+
+Q6: What is the median number of variants per sample in this data set?
+A6: The median number of variants per sample in this data set is **28**
+
+Q7: What is the average depth of coverage in this data set?

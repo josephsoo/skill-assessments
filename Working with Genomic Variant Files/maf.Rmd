@@ -1,0 +1,65 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-07-17"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+if (!require("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install("maftools")
+
+```
+```{R}
+library(maftools)
+
+# view available TCGA cohorts, check that LGG is there
+tcgaAvailable()
+
+# load the available LGG cohort
+lgg <- tcgaLoad(study = "LGG")
+
+# view a summary
+```
+
+
+```{R}
+lgg
+variants_median <- median(lgg@variants.per.sample[["Variants"]])
+variants_median
+```
+```{r}
+library(tidyverse)
+lgg.titv = titv(maf = lgg, plot = FALSE, useSyn = FALSE)
+#plot titv summary
+plotTiTv(res = lgg.titv, plotType = "box")
+ggsave("transition_to_transversion.png", device = "png")
+```
+
+
+
+
+```{r}
+```
+
+
+```{r}
+oncoplot(maf = lgg, top = 5)
+ggsave("oncoplot_top_5.png", device = "png")
+```
+
+```{r}
+laml.mutload = tcgaCompare(maf = lgg, cohortName = 'Example-LGG', logscale = TRUE, capture_size = 50)
+ggsave("mutation_log_comparison.png", device = "png")
+
+```

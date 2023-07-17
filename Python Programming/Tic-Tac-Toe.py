@@ -148,3 +148,8 @@ while True:
 
     if not replay():
         break
+
+    #What does this code do
+    #1. It imports the random module
+    #2. It defines a function called display_board that takes in a list called board
+    #3. It print
